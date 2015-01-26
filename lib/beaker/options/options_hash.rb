@@ -60,14 +60,18 @@ module Beaker
       #     a.get_type == :pe
       #
       # @return [Symbol] the type given in the options
-      def get_type
+      def get_type name
         case self[:type]
         when /pe/
           :pe
         when /foss/
           :foss
         when /aio/
-          :aio
+          if self['HOSTS'][name]['roles'].include? 'agent'
+            :aio
+          else
+            :foss
+          end
         else
           :foss
         end

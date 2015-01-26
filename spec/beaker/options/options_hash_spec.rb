@@ -46,26 +46,37 @@ module Beaker
       end
 
       describe '#get_type' do
-        let(:options) { Beaker::Options::OptionsHash.new }
+        let(:name) { 'fakename' }
+        let(:options) { options = Beaker::Options::OptionsHash.new
+          options['HOSTS'] = { :name => { :roles => ['agent'] }}
+          options }
+
 
         it 'returns pe as expected in the normal case' do
-          newhash = options.merge({:type => 'pe'})
-          expect(newhash.get_type).to be === :pe
+          newhash = options.merge({:type => 'pe', 'HOSTS' => { :name => { :roles => ['agent'] } } })
+          puts "newhash: #{newhash.dump}"
+          expect(newhash.get_type :name).to be === :pe
         end
 
         it 'returns foss as expected in the normal case' do
           newhash = options.merge({:type => 'foss'})
-          expect(newhash.get_type).to be === :foss
+          expect(newhash.get_type :name).to be === :foss
         end
 
         it 'returns aio as expected in the normal case' do
           newhash = options.merge({:type => 'aio'})
-          expect(newhash.get_type).to be === :aio
+          expect(newhash.get_type :name).to be === :aio
+        end
+
+        it 'returns foss on aio when the role of the machine is not agent' do
+          newhash = options.merge({:type => 'aio'})
+          newhash['HOSTS'][:name][:roles] = ['master']
+          expect(newhash.get_type :name).to be === :foss
         end
 
         it 'returns foss as the default' do
           newhash = options.merge({:type => 'git'})
-          expect(newhash.get_type).to be === :foss
+          expect(newhash.get_type :name).to be === :foss
         end
       end
 
