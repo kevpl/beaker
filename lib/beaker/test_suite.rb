@@ -172,6 +172,7 @@ module Beaker
             end
             suite.add_child(properties)
 
+            @test_cases.sort! { |x,y| y.runtime <=> x.runtime }
             @test_cases.each do |test|
               item = Nokogiri::XML::Node.new('testcase', doc)
               item['classname'] = File.dirname(test.path)
