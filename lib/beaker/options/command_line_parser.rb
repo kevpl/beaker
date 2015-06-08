@@ -223,6 +223,11 @@ module Beaker
             @cmd_options[:type] = type
           end
 
+          opts.on '--xml-time-order',
+                  'Output an additional JUnit XML file, sorted by execution time' do |bool|
+            @cmd_options[:xml_time_enabled] = bool
+          end
+
         end
 
       end

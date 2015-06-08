@@ -148,7 +148,7 @@ module Beaker
         @logger.notify "  Test Case #{test_case.path} #{test_reported}"
       end
 
-      def write_junit_xml(xml_file)
+      def write_junit_xml(xml_file, time_sort = false)
         stylesheet = File.join(@options[:project_root], @options[:xml_stylesheet])
 
         begin
@@ -172,6 +172,7 @@ module Beaker
             end
             suite.add_child(properties)
 
+            @test_cases.sort! { |x,y| y.runtime <=> x.runtime } if time_sort
             @test_cases.each do |test|
               item = Nokogiri::XML::Node.new('testcase', doc)
               item['classname'] = File.dirname(test.path)
@@ -310,6 +311,7 @@ module Beaker
       # has not studied the implementation in detail. --daniel 2011-03-14
       @test_suite_results.summarize( Logger.new(log_path("#{name}-summary.txt", @options[:log_dated_dir]), STDOUT) )
       @test_suite_results.write_junit_xml( log_path(@options[:xml_file], @options[:xml_dated_dir]) )
+      @test_suite_results.write_junit_xml( log_path(@options[:xml_time], @options[:xml_dated_dir]), True ) if @options[:xml_time_enabled]
 
       #All done with this run, remove run log
       @logger.remove_destination(run_log)
