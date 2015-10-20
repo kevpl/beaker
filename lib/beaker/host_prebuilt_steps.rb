@@ -107,6 +107,9 @@ module Beaker
           check_and_install_packages_if_needed(host, FREEBSD_PACKAGES)
         when host['platform'] =~ /openbsd/
           check_and_install_packages_if_needed(host, OPENBSD_PACKAGES)
+        when host['platform'] =~ /fedora-22/
+          execute("dnf clean all")
+          check_and_install_packages_if_needed(host, UNIX_PACKAGES)
         when host['platform'] !~ /debian|aix|solaris|windows|sles-|osx-|cumulus|f5-/
           check_and_install_packages_if_needed(host, UNIX_PACKAGES)
         end
