@@ -75,7 +75,7 @@ module Beaker
       # TODO: might want to consider caching here; not doing it for now because
       #  I haven't thought through all of the possible scenarios that could
       #  cause the value to change after it had been cached.
-      result = puppet['node_name_value'].strip
+      result = puppet_configprint['node_name_value'].strip
     end
 
     def port_open? port
@@ -107,9 +107,10 @@ module Beaker
     # class to do things like `host.puppet['vardir']` to query the
     # 'main' section or, if they want the configuration for a
     # particular run type, `host.puppet('agent')['vardir']`
-    def puppet(command='agent')
+    def puppet_configprint(command='agent')
       PuppetConfigReader.new(self, command)
     end
+    alias_method :puppet, :puppet_configprint
 
     def []= k, v
       host_hash[k] = v
@@ -334,6 +335,7 @@ module Beaker
     #   do_scp_to('source/file.rb', 'target', { :ignore => 'file.rb' }
     #   -> will result in not files copyed to the host, all are ignored
     def do_scp_to source, target, options
+      target = self.scp_path(target)
       @logger.notify "localhost $ scp #{source} #{@name}:#{target} {:ignore => #{options[:ignore]}}"
 
       result = Result.new(@name, [source, target])
