@@ -37,18 +37,23 @@ module Windows
     def determine_ssh_server
       return @ssh_server if @ssh_server
       @ssh_server = :openssl
-      status = execute('cmd.exe /c sc query BvSshServer', :accept_all_exit_codes => true)
+      status = execute('cmd.exe /c "sc query BvSshServer"', :accept_all_exit_codes => true)
       @ssh_server = :bitvise if status =~ /4  RUNNING/
       logger.debug("windows.rb:determine_ssh_server: determined ssh server: '#{@ssh_server}'")
       @ssh_server
     end
 
-    attr_reader :scp_separator
+    def scp_separator
+      return '\\' if (determine_ssh_server == :openssl)
+      '/'
+    end
+
+    # attr_reader :scp_separator
     def initialize name, host_hash, options
       super
 
       @ssh_server         = nil
-      @scp_separator      = '\\'
+      # @scp_separator      = '\\'
       @external_copy_base = nil
     end
 

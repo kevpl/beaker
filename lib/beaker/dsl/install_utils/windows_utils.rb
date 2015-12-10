@@ -120,17 +120,17 @@ exit /B %errorlevel%
             begin
               # 1641 = ERROR_SUCCESS_REBOOT_INITIATED
               # 3010 = ERROR_SUCCESS_REBOOT_REQUIRED
-              on host, Command.new("\"#{batch_path}\"", [], { :cmdexe => true }), :acceptable_exit_codes => [0, 1641, 3010]
+              on host, Command.new("\"\\\"#{batch_path}\\\"\"", [], { :cmdexe => true }), :acceptable_exit_codes => [0, 1641, 3010]
             rescue
-              on host, Command.new("type \"#{log_file}\"", [], { :cmdexe => true })
+              on host, Command.new("\"type \\\"#{log_file}\\\"\"", [], { :cmdexe => true })
               raise
             end
 
             if opts[:debug]
-              on host, Command.new("type \"#{log_file}\"", [], { :cmdexe => true })
+              on host, Command.new("\"type \\\"#{log_file}\\\"\"", [], { :cmdexe => true })
             end
 
-            if !host.is_cygwin?
+            if host.determine_ssh_server != :openssl
               # HACK: for some reason, post install we need to refresh the connection to make puppet available for execution
               host.close
             end
@@ -139,7 +139,7 @@ exit /B %errorlevel%
             # if puppet service exists, then pe-puppet is not queried
             # if puppet service does not exist, pe-puppet is queried and that exit code is used
             # therefore, this command will always exit 0 if either service is installed
-            on host, Command.new("sc query puppet || sc query pe-puppet", [], { :cmdexe => true })
+            on host, Command.new("\"sc query puppet || sc query pe-puppet\"", [], { :cmdexe => true })
           end
         end
 

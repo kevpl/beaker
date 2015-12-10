@@ -11,7 +11,7 @@ module Windows::File
 
   def system_temp_path
     # under CYGWIN %TEMP% may not be set
-    tmp_path = execute('ECHO %SYSTEMROOT%', :cmdexe => true)
+    tmp_path = execute('"ECHO %SYSTEMROOT%"', :cmdexe => true)
     tmp_path.gsub(/\n/, '') + '\\TEMP'
   end
 
@@ -28,7 +28,7 @@ module Windows::File
       # swap out separators
       network_path = path.gsub('\\', scp_separator)
       # pull off drive prefix since base BitVise dir is '/'
-      network_path.gsub('C:', '')
+      network_path.gsub(/^C\:/i, '')
     when :openssl
       path
     else
@@ -41,7 +41,9 @@ module Windows::File
   end
 
   def file_exist?(path)
-    result = exec(Beaker::Command.new("test -e '#{path}'"), :acceptable_exit_codes => [0, 1])
+    # TODO: this should be adjusted based on the host - test -e works on Cygwin and Git Bash
+    require 'pry'; binding.pry
+    result = exec(Beaker::Command.new("\"test -e '#{path}'\""), :acceptable_exit_codes => [0, 1])
     result.exit_code == 0
   end
 end

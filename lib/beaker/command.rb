@@ -66,7 +66,7 @@ module Beaker
     #                      interface.
     # @param [String] cmd  An command to call.
     # @param [Hash]   env  An optional hash of environment variables to be used
-    # @param [String] pc   An optional list of commands to prepend 
+    # @param [String] pc   An optional list of commands to prepend
     #
     # @return [String] This returns the fully formed command line invocation.
     def cmd_line host, cmd = @command, env = @environment, pc = @prepend_cmds
@@ -167,7 +167,7 @@ module Beaker
 
   class PuppetCommand < Command
     def initialize *args
-      command = "puppet #{args.shift}"
+      command = "\"puppet #{args.shift}\""
       opts = args.last.is_a?(Hash) ? args.pop : Hash.new
       opts['ENV'] ||= Hash.new
       opts[:cmdexe] = true

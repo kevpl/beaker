@@ -61,7 +61,7 @@ module Beaker
         options[:cmdexe] = true
         # we assume that an invocation with `puppet()` will have it's first argument
         # a face or sub command
-        cmd = "puppet #{args.shift}"
+        cmd = "\"puppet #{args.shift}\""
         Command.new( cmd, args, options )
       end
 
