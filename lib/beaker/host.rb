@@ -275,6 +275,7 @@ module Beaker
 
       if options[:dry_run]
         @logger.debug "\n Running in :dry_run mode. Command #{cmdline} not executed."
+        return Beaker::NullResult.new(self, command)
       end
 
       if options[:silent]
@@ -358,8 +359,9 @@ module Beaker
       options[:dry_run] ||= @options[:dry_run]
 
       if options[:dry_run]
-        @logger.debug "\n Running in :dry_run mode. localhost $ scp #{source} #{@name}:#{target} not executed."
-        return result
+        scp_cmd = "scp #{source} #{@name}:#{target}"
+        @logger.debug "\n Running in :dry_run mode. localhost $ #{scp_cmd} not executed."
+        return NullResult.new(self, scp_cmd)
       end
 
       @logger.notify "localhost $ scp #{source} #{@name}:#{target} {:ignore => #{options[:ignore]}}"
