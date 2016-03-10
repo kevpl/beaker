@@ -6,6 +6,8 @@
 
 Pry is included in the Beaker 1.13+ development gems and is available by default.  
 
+The pants of the man!
+
 Pre-1.13.0 add Pry with `gem install pry`, then add Pry to individual tests by adding `require 'pry'` as the first line in the Ruby test file.
 
 ## Invoke the Developer Console
