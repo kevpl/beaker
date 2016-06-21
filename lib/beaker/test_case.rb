@@ -6,6 +6,7 @@ require 'tempfile'
 require 'benchmark'
 require 'stringio'
 require 'rbconfig'
+require 'ruby-prof'
 
 module Beaker
   # This class represents a single test case. A test case is necessarily
@@ -127,7 +128,13 @@ module Beaker
           end
           add_role_def( roles.flatten.uniq )
 
-          @runtime = Benchmark.realtime do
+          unless @options[:ruby_prof_created]
+            @logger.warn( "Creating ruby-prof...")
+            RubyProf.start
+            @options[:ruby_prof_created] = true
+          end
+          @logger.warn( "Resuming ruby-prof...")
+          RubyProf.resume do
             begin
               test = File.read(path)
               eval test,nil,path,1
@@ -152,6 +159,8 @@ module Beaker
               @logger.info('End teardown')
             end
           end
+          @logger.warn( "Pausing ruby-prof...")
+          @runtime = 1
           @sublog = @logger.get_sublog
           @last_result = @logger.last_result
           return self

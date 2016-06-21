@@ -1,3 +1,5 @@
+require 'ruby-prof'
+
 module Beaker
   class CLI
     VERSION_STRING =
@@ -157,6 +159,11 @@ module Beaker
           print_reproduction_info( :debug )
         end
       end
+      @logger.warn( "Run finished, outputting ruby-prof info...")
+      result = RubyProf.stop
+      printer = RubyProf::MultiPrinter.new(result)
+      printer.print(:path => "profiling/160617.100958", :profile => "profile")
+      @logger.warn( "Completed ruby-prof output. Finished.")
     end
 
     #Run the provided test suite
