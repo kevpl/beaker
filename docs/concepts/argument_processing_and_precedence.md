@@ -1,14 +1,14 @@
 Beaker uses arguments and settings from a variety of sources to determine how your test run is executed.
 
-*  [Environment Variables](Argument-Processing-and-Precedence.md#environment-variables)
-* [Host/Config File Options](Argument-Processing-and-Precedence.md#host-file-options)
-* [ARGV](Argument-Processing-and-Precedence.md#argv-or-provided-arguments-array)
-  * [Supported Command Line Arguments](Argument-Processing-and-Precedence.md#supported-command-line-arguments)
-* [Options File Values](Argument-Processing-and-Precedence.md#options-file-values)
-  * [Example Options File](Argument-Processing-and-Precedence.md#example-options-file)
-* [Default Values](Argument-Processing-and-Precedence.md#default-values)
-  * [Beaker Default Values](Argument-Processing-and-Precedence.md#beaker-default-values)
-* [Priority of Settings](Argument-Processing-and-Precedence.md#priority-of-settings)
+*  [Environment Variables](argument_processing_and_precedence.md#environment-variables)
+* [Host/Config File Options](argument_processing_and_precedence.md#host-file-options)
+* [ARGV](argument_processing_and_precedence.md#argv-or-provided-arguments-array)
+  * [Supported Command Line Arguments](argument_processing_and_precedence.md#supported-command-line-arguments)
+* [Options File Values](argument_processing_and_precedence.md#options-file-values)
+  * [Example Options File](argument_processing_and_precedence.md#example-options-file)
+* [Default Values](argument_processing_and_precedence.md#default-values)
+  * [Beaker Default Values](argument_processing_and_precedence.md#beaker-default-values)
+* [Priority of Settings](argument_processing_and_precedence.md#priority-of-settings)
 
 
 ## Environment Variables
