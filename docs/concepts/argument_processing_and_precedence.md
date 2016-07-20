@@ -1,14 +1,14 @@
 Beaker uses arguments and settings from a variety of sources to determine how your test run is executed.
 
-*  [Environment Variables](argument_processing_and_precedence.md#environment-variables)
+*  [Environment Variables](#environment-variables)
 * [Host/Config File Options](argument_processing_and_precedence.md#host-file-options)
 * [ARGV](argument_processing_and_precedence.md#argv-or-provided-arguments-array)
   * [Supported Command Line Arguments](argument_processing_and_precedence.md#supported-command-line-arguments)
 * [Options File Values](argument_processing_and_precedence.md#options-file-values)
   * [Example Options File](argument_processing_and_precedence.md#example-options-file)
-* [Default Values](argument_processing_and_precedence.md#default-values)
-  * [Beaker Default Values](argument_processing_and_precedence.md#beaker-default-values)
-* [Priority of Settings](argument_processing_and_precedence.md#priority-of-settings)
+* [Default Values](##default-values)
+  * [Beaker Default Values](#beaker-default-values)
+* [Priority of Settings](##priority-of-settings)
 
 
 ## Environment Variables
