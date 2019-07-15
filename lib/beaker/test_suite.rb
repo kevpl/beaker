@@ -57,6 +57,12 @@ module Beaker
       # are ported to use logger.  Still in use in PuppetDB tests
       Beaker.const_set(:Log, @logger) unless defined?( Log )
 
+
+      tracing_span = OpenTracing.start_span(
+        "testsuite:#{@name}",
+        child_of: @options[:tracing_span_execute]
+      )
+      options[:tracing_span_testsuite] = tracing_span
       @test_suite_results.start_time = start_time
       @test_suite_results.total_tests = @test_files.length
 
@@ -100,6 +106,7 @@ module Beaker
       end
 
       @test_suite_results.persist_test_results(@options[:test_results_file])
+      tracing_span.finish
 
       #All done with this run, remove run log
       @logger.remove_destination(run_log)

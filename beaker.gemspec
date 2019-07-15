@@ -53,6 +53,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'in-parallel', '~> 0.1'
   s.add_runtime_dependency 'thor', '~> 0.19'
 
+  s.add_runtime_dependency 'jaeger-client', '~> 0.10'
+
   # Run time dependencies that are Beaker libraries
   s.add_runtime_dependency 'stringify-hash', '~> 0.0'
   s.add_runtime_dependency 'beaker-hostgenerator'

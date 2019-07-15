@@ -39,6 +39,8 @@ module Beaker
   # MiniTest, for including MiniTest::Assertions
   require 'minitest/test'
 
+  require 'jaeger/client'
+
   # Add pry support when available
   begin
     require 'pry'
