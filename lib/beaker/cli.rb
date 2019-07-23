@@ -136,17 +136,13 @@ module Beaker
         errored = false
 
         #pre acceptance  phase
-        # span_suite_presuite = OpenTracing.start_span("pre-suite", child_of: span_execute)
         run_suite(:pre_suite, :fast)
-        # span_suite_presuite.finish
 
         #testing phase
-        # span_suite_test = OpenTracing.start_span("test", child_of: span_execute)
         begin
           run_suite(:tests, @options[:fail_mode])
         #post acceptance phase
         rescue => e
-          # span_suite_test.finish
           #post acceptance on failure
           #run post-suite if we are in fail-slow mode
           if @options[:fail_mode].to_s =~ /slow/
@@ -155,26 +151,20 @@ module Beaker
           end
           raise e
         else
-          # span_suite_test.finish
           #post acceptance on success
-          # span_suite_postsuite = OpenTracing.start_span("post-suite", child_of: span_execute)
           run_suite(:post_suite)
-          # span_suite_postsuite.finish
           @perf.print_perf_info if defined? @perf
         end
       #cleanup phase
       rescue => e
-        # span_suite_precleanup = OpenTracing.start_span("pre-cleanup", child_of: span_execute)
         begin
           run_suite(:pre_cleanup)
         rescue => e
           # pre-cleanup failed
           @logger.error "Failed running the pre-cleanup suite."
         end
-        # span_suite_precleanup.finish
 
         #cleanup on error
-        # span_suite_cleanup = OpenTracing.start_span("cleanup", child_of: span_execute)
         if @options[:preserve_hosts].to_s =~ /(never)|(onpass)/
           @logger.notify "Cleanup: cleaning up after failed run"
           if @network_manager
@@ -188,20 +178,16 @@ module Beaker
 
         @logger.error "Failed running the test suite."
         puts ''
-        # span_suite_cleanup.finish
         exit 1
       else
-        # span_suite_precleanup = OpenTracing.start_span("pre-cleanup", child_of: span_execute)
         begin
           run_suite(:pre_cleanup)
         rescue => e
           # pre-cleanup failed
           @logger.error "Failed running the pre-cleanup suite."
         end
-        # span_suite_precleanup.finish
 
         #cleanup on success
-        # span_suite_cleanup = OpenTracing.start_span("cleanup", child_of: span_execute)
         if @options[:preserve_hosts].to_s =~ /(never)|(onfail)/
           @logger.notify "Cleanup: cleaning up after successful run"
           if @network_manager
@@ -214,7 +200,6 @@ module Beaker
         if @logger.is_debug?
           print_reproduction_info( :debug )
         end
-        # span_suite_cleanup.finish
       end
       span_execute.finish
       @tracing_span_root.finish
