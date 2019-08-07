@@ -128,8 +128,11 @@ module Beaker
           add_role_def( roles.flatten.uniq )
 
           tracing_span = OpenTracing.start_span(
-            "testcase:#{path}",
-            child_of: @options[:tracing_span_testsuite]
+            "testcase",
+            child_of: @options[:tracing_span_testsuite],
+            tags: {
+              "path": path
+            }
           )
           @runtime = Benchmark.realtime do
             begin
@@ -146,6 +149,7 @@ module Beaker
             rescue StandardError, ScriptError, SignalException => e
               log_and_fail_test(e)
             ensure
+              tracing_span.set_tag("test_result", @test_status)
               tracing_span.finish
               @logger.info('Begin teardown')
               @teardown_procs.each do |teardown|
