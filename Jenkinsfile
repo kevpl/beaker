@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-@Library('puppet_jenkins_shared_libraries') _
+@Library('puppet_jenkins_shared_libraries')
 
 import com.puppet.jenkinsSharedLibraries.BundleInstall
 import com.puppet.jenkinsSharedLibraries.BundleExec
@@ -16,8 +16,8 @@ pipeline {
     stage('install') {
       steps {
         echo 'Bundle Install...'
-        BundleInstall env.RUBY_VERSION
-        BundleExec env.RUBY_VERSION, 'rake -T'
+        new BundleInstall(env.RUBY_VERSION)
+        new BundleExec(env.RUBY_VERSION, 'rake -T')
       }
     }
   }
