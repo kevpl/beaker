@@ -1,6 +1,9 @@
 #!/usr/bin/env groovy
 @Library('puppet_jenkins_shared_libraries') _
 
+import com.puppet.jenkinsSharedLibraries.BundleInstall
+import com.puppet.jenkinsSharedLibraries.BundleExec
+
 pipeline {
   agent any
 
