@@ -11,9 +11,11 @@ pipeline {
 
   stages {
     stage('install') {
-      echo 'Bundle Install...'
-      BundleInstall env.RUBY_VERSION
-      BundleExec env.RUBY_VERSION, 'rake -T'
+      steps {
+        echo 'Bundle Install...'
+        BundleInstall env.RUBY_VERSION
+        BundleExec env.RUBY_VERSION, 'rake -T'
+      }
     }
   }
 }
