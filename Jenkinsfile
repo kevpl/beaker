@@ -16,8 +16,12 @@ pipeline {
     stage('install') {
       steps {
         echo 'Bundle Install...'
-        new BundleInstall(env.RUBY_VERSION)
-        new BundleExec(env.RUBY_VERSION, 'rake -T')
+        def setup_gems = new BundleInstall(env.RUBY_VERSION)
+        def rake_t = new BundleExec(env.RUBY_VERSION, 'rake -T')
+
+        sh setup_gems.bundleInstall
+        sh rake_t.bundleExec
+        echo 'Bundle Install Complete'
       }
     }
   }
