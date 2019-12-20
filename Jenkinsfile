@@ -4,6 +4,16 @@
 import com.puppet.jenkinsSharedLibraries.BundleInstall
 import com.puppet.jenkinsSharedLibraries.BundleExec
 
+String useBundleInstall(String rubyVersion) {
+  def bundle_install = new BundleInstall(rubyVersion)
+  return bundle_install.bundleInstall
+}
+
+String useBundleExec(String rubyVersion, String command) {
+  def bundle_exec = new BundleExec(rubyVersion, command)
+  return bundle_exec.bundleExec
+}
+
 pipeline {
   agent any
 
@@ -16,11 +26,10 @@ pipeline {
     stage('install') {
       steps {
         echo 'Bundle Install...'
-        def setup_gems = new BundleInstall(env.RUBY_VERSION)
-        def rake_t = new BundleExec(env.RUBY_VERSION, 'rake -T')
 
-        sh setup_gems.bundleInstall
-        sh rake_t.bundleExec
+        sh useBundleInstall(env.RUBY_VERSION)
+        sh useBundleExec(env.RUBY_VERSION, 'rake -T')
+
         echo 'Bundle Install Complete'
       }
     }
