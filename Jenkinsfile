@@ -33,5 +33,14 @@ pipeline {
         echo 'Bundle Install Complete'
       }
     }
+    stage('spec testing') {
+      steps {
+        echo 'Spec Testing using a Rake Task...'
+
+        sh useBundleExec(env.RUBY_VERSION, 'rake test:spec')
+
+        echo 'Spec Testing Complete.'
+      }
+    }
   }
 }
