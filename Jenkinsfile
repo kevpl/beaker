@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 @Library('puppet_jenkins_shared_libraries') _
 
-# import com.puppet.jenkinsSharedLibraries.BundleInstall
-# import com.puppet.jenkinsSharedLibraries.BundleExec
+import com.puppet.jenkinsSharedLibraries.BundleInstall
+import com.puppet.jenkinsSharedLibraries.BundleExec
 
 String useBundleInstall(String rubyVersion) {
   def bundle_install = new BundleInstall(rubyVersion)
@@ -15,7 +15,7 @@ String useBundleExec(String rubyVersion, String command) {
 }
 
 pipeline {
-  agent any
+  agent { label 'worker' }
 
   environment {
     GEM_SOURCE='https://artifactory.delivery.puppetlabs.net/artifactory/api/gems/rubygems/'
