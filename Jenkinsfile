@@ -43,12 +43,25 @@ pipeline {
       }
     }
     stage('acceptance:base testing') {
-      environment {
-        TEST_TARGET='centos7-64af'
-        MASTER_TEST_TARGET='centos7-64default.mdcal'
-      }
-      steps {
-        sh useBundleExec(env.RUBY_VERSION, 'rake test:base')
+      parallel {
+        stage('centos7') {
+          environment {
+            TEST_TARGET='centos7-64af'
+            MASTER_TEST_TARGET='centos7-64default.mdcal'
+          }
+          steps {
+            sh useBundleExec(env.RUBY_VERSION, 'rake test:base')
+          }
+        }
+        stage('centos6') {
+          environment {
+            TEST_TARGET='centos6-64af'
+            MASTER_TEST_TARGET='centos7-64default.mdcal'
+          }
+          steps {
+            sh useBundleExec(env.RUBY_VERSION, 'rake test:base')
+          }
+        }
       }
     }
   }
