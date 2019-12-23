@@ -48,7 +48,7 @@ pipeline {
         MASTER_TEST_TARGET='centos7-64default.mdcal'
       }
       steps {
-        sh useBundleExec('rake test:base')
+        sh useBundleExec(env.RUBY_VERSION, 'rake test:base')
       }
     }
   }
