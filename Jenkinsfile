@@ -42,5 +42,14 @@ pipeline {
         echo 'Spec Testing Complete.'
       }
     }
+    stage('acceptance:base testing') {
+      environment {
+        TEST_TARGET='centos7-64af'
+        MASTER_TEST_TARGET='centos7-64default.mdcal'
+      }
+      steps {
+        sh useBundleExec('rake test:base')
+      }
+    }
   }
 }
