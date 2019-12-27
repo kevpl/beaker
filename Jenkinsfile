@@ -44,19 +44,17 @@ pipeline {
     }
     stage('acceptance:base testing') {
       parallel {
-        stage('centos7') {
+        stage('ubuntu1604') {
           environment {
-            TEST_TARGET='centos7-64af'
-            MASTER_TEST_TARGET='centos7-64default.mdcal'
+            LAYOUT='ubuntu1604-64default.a-64a'
           }
           steps {
             sh useBundleExec(env.RUBY_VERSION, 'rake test:base')
           }
         }
-        stage('centos6') {
+        stage('centos7') {
           environment {
-            TEST_TARGET='centos6-64af'
-            MASTER_TEST_TARGET='centos7-64default.mdcal'
+            LAYOUT='centos7-64default.a-64a'
           }
           steps {
             sh useBundleExec(env.RUBY_VERSION, 'rake test:base')
