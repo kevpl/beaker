@@ -86,14 +86,34 @@ module Beaker
     end
 
     describe '#execute' do
-      it 'raises an error if it fails' do
+      before :each do
         mock_ssh = Object.new
         expect( Net::SSH ).to receive( :start ).with( ip, user, ssh_opts) { mock_ssh }
         connection.connect
+      end
 
+      it 'raises an error if it fails' do
         allow( subject ).to receive( :try_to_execute ) { raise Timeout::Error }
 
         expect{ connection.execute('ls') }.to raise_error Timeout::Error
+      end
+
+      it 'listens to the `max_connection_tries` parameter passed in options' do
+        # stubbing `try_to_execute` allows "execution" to succeed
+        allow(connection).to receive(:try_to_execute)
+
+        # ensure we do call `connect`, since that shows we do get to the method
+        # that would call `connect_block` if warranted
+        expect(connection).to receive(:connect)
+
+        # failing this expectation shows two things:
+        # 1. if the connection is already created (as on line 92 here),
+        #    `connect_block` is never called
+        # 2. if `connect_block` is never called, then the :max_connection_tries
+        #    parameter must not be used, as all the code for that is in that method
+        expect(connection).to receive(:connect_block)
+
+        connection.execute('ls', :max_connection_tries => 17)
       end
     end
 
